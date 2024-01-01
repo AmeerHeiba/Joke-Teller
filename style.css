@@ -64,6 +64,7 @@ button:disabled{
   margin: 10px;
   box-shadow: 2px 2px 20px 10px rgba(0,0,0,0.2);
   max-width: 450px;
+  visibility: hidden;
 }
 
 /* Media query for Tablet or SMALLER */

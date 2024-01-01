@@ -11,84 +11,39 @@ const voiceRSSapiKey = '67ea8295cad8439181dc7d8b883cf712';
 
 
 
-
 // async function to get a joke from joke api url
-
-
-/**
- * Fetches a joke from the Joke API.
- * @returns {string} the joke
- */
 async function getJoke() {
-  try {
-    const response = await fetch(jokeApiUrl);
-    const data = await response.json();
-    return data.joke;
-  } catch (error) {
-    return error;
-  }
+  const response = await fetch(jokeApiUrl);
+  const data = await response.json();
+  return data.joke;
 }
 
-
 // function to pass the joke to the voiceRSS API
-
-
-/**
- * Passes the given joke to the VoiceRSS API.
- * @param {string} joke - the joke to be passed to the API
- */
 function passJoke(joke) {
   VoiceRSS.speech({
     key: voiceRSSapiKey,
     src: joke,
-    hl: "en-US",
+    hl: 'en-US',
     r: 0,
-    c: "mp3",
-    f: "44khz_16bit_stereo",
-    ssml: false
+    c: 'mp3',
+    f: '44khz_16bit_stereo',
+    ssml: false,
   });
 }
 
-
-/**
- * Fetches a joke from the Joke API and displays it using the VoiceRSS API.
- */
-async function viewController() {
-  const jokeElement = document.getElementById("jokeScript");
-  const joke = await getJoke();
+// function to display the joke on the page
+function displayJoke(joke) {
+  const jokeElement = document.getElementById('jokeScript');
   jokeElement.innerHTML = joke;
+  jokeElement.style.visibility =  'visible';
+}
+
+// function to get the joke and display it on the page
+async function viewController() {
+  const joke = await getJoke();
+  displayJoke(joke);
   passJoke(joke);
 }
 
-/**
- * Fetches a joke from the Joke API.
- * @returns {string} the joke
- */
-async function getJoke() {
-  try {
-    const response = await fetch(jokeApiUrl);
-    const data = await response.json();
-    return data.joke;
-  } catch (error) {
-    return error;
-  }
-}
-
-/**
- * Passes the given joke to the VoiceRSS API.
- * @param {string} joke - the joke to be passed to the API
- */
-function passJoke(joke) {
-  VoiceRSS.speech({
-    key: voiceRSSapiKey,
-    src: joke,
-    hl: "en-US",
-    r: 0,
-    c: "mp3",
-    f: "44khz_16bit_stereo",
-    ssml: false
-  });
-}
-
-
-btn.addEventListener("click", viewController);
+// add an event listener to the button to trigger the joke viewing process
+btn.addEventListener('click', viewController);
